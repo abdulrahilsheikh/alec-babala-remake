@@ -1,0 +1,15 @@
+$BG_COLOR: #ebeaf0;
+$BG_COLOR_1: #f5f5f5;
+$BG_COLOR_2: hsla(0, 0%, 100%, 0.5);
+$BOX_SHADOW: 0 0 10px 1px rgba(0, 0, 0, 0.1);
+.layout {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  background-color: $BG_COLOR;
+  .canvas {
+    background-color: $BG_COLOR;
+    transition: transform 0.35s ease-out;
+  }
+}

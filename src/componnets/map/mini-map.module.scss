@@ -1,0 +1,36 @@
+$BG_COLOR: #ebeaf0;
+$BG_COLOR_1: #f5f5f5;
+$BG_COLOR_2: hsla(0, 0%, 100%, 0.5);
+$BOX_SHADOW: 0 0 10px 1px rgba(0, 0, 0, 0.1);
+.map-container {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1;
+
+  .canvas-map {
+    border-radius: 0.5rem;
+    width: 20rem;
+    background-color: $BG_COLOR_2;
+    box-shadow: $BOX_SHADOW;
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .title {
+      padding: 0.75rem;
+      color: rgb(0 0 0);
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      border-bottom: thin solid #ccc;
+    }
+
+    .map {
+      position: relative;
+      height: 12rem;
+      background-color: $BG_COLOR_1;
+    }
+  }
+}
