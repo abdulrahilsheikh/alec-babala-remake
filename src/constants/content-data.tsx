@@ -7,6 +7,11 @@ const data = [
     link: "contact",
   },
   {
+    contentType: "Clock",
+    position: { x: 1250, y: 250 },
+    link: "contact",
+  },
+  {
     contentType: "DataGrid",
     title: "skillset_current.zip",
     position: { x: 2050, y: 550 },
@@ -113,6 +118,19 @@ const data = [
       linkedIn: "",
       devTo: "",
     },
+  },
+  {
+    contentType: "DataList",
+    title: "rahil.sheikh / life / timeline.xls",
+    position: { x: 1050, y: 550 },
+    link: "contact",
+    content: [
+      {
+        name: "10'th standard",
+        tag: "Education",
+        date: "June 2016",
+      },
+    ],
   },
 ];
 export default data;

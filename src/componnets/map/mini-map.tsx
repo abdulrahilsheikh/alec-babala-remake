@@ -42,11 +42,13 @@ const MiniMap = ({
               className={`fa-solid fa-chevron-down ${open ? style.open : ""}`}
             ></i>
           </button>
-          <div className={style.text}>rahil.sheikh / {activeSection}</div>
-          <button className={style.button} onClick={() => changeSection(1)}>
-            <i className={`fa-solid fa-chevron-left  `}></i>
-          </button>
+          <div className={style.text}>
+            rahil.sheikh / <span>{activeSection}</span>
+          </div>
           <button className={style.button} onClick={() => changeSection(-1)}>
+            <i className={`fa-solid fa-chevron-left `}></i>
+          </button>
+          <button className={style.button} onClick={() => changeSection(1)}>
             <i className={`fa-solid fa-chevron-right `}></i>
           </button>
         </div>

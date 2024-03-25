@@ -1,6 +1,7 @@
 import ContentStack from "../content-stack/content-stack";
 import { ITextStack } from "../section-stack/section-stack.types";
 import style from "./text-stack.module.scss";
+
 type Props = {
   data: ITextStack;
 };

@@ -3,13 +3,13 @@
 
 .container {
   @extend .basic_container;
-
+  width: 350px;
   .title {
     @extend .title;
   }
   .body {
     padding: 2rem;
-    height: 300px;
+    height: 250px;
     display: flex;
     flex-direction: column;
 
@@ -44,6 +44,7 @@
         font-weight: bold;
         font-size: 1.55rem;
         color: $TEXT_COLOR_2;
+        opacity: 0.85;
       }
       .profession {
         font-weight: bold;
@@ -63,16 +64,36 @@
       margin-top: 1.25rem;
       margin-bottom: 1.25rem;
       display: flex;
+      gap: 0.5rem;
+      font-size: 14px;
+      font-weight: 400;
       .intro_row_title {
         flex: 0 0 50%;
         text-align: right;
       }
       .intr0_row_content {
         flex: 0 0 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        .row_item {
+          display: flex;
+          justify-content: space-between;
+          button {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            i {
+              transition: transform 0.25s ease;
+              &:hover {
+                transform: translate(-12px);
+              }
+              background-color: transparent;
+            }
+          }
+        }
       }
-    }
-    h2 {
-      margin: 0px;
     }
   }
 }

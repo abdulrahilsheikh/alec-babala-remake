@@ -8,8 +8,8 @@ const DataGrid = ({ data }: Props) => {
   const itemList = useMemo(() => {
     return data.content.map((item) => {
       return (
-        <a className={style.grid_item} href={item.link || ""}>
-          <img src={item.src} />
+        <a draggable="false" className={style.grid_item} href={item.link || ""}>
+          <img draggable="false" src={item.src} />
           <span>{item.title}</span>
         </a>
       );

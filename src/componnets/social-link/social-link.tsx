@@ -27,7 +27,11 @@ const SocialLink = ({ data }: Props) => {
     return list.map((item) => {
       const links: any = data?.externalLink || {};
       return (
-        <a className={style.social_item} href={links[item.key] || ""}>
+        <a
+          draggable="false"
+          className={style.social_item}
+          href={links[item.key] || ""}
+        >
           <i className={item.icon}></i>
           <span>{item.text}</span>
         </a>

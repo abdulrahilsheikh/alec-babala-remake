@@ -25,13 +25,15 @@
       justify-items: center;
       color: $TEXT_COLOR_2;
       text-decoration: none;
+      user-select: none;
       img {
+        user-select: none;
         width: 45px;
         border-radius: 0.25rem;
         overflow: hidden;
       }
       span {
-        height: 38px;
+        max-height: 38px;
         font-weight: 700;
         opacity: 0.85;
         font-size: 0.825rem;

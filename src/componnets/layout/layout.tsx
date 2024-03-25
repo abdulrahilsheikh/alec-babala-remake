@@ -1,75 +1,53 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useDeferredValue, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import data from "../../constants/content-data";
-import {
-  CanvasDimension,
-  CanvasPadding,
-  scale,
-} from "../../constants/size.constants";
+import { CanvasDimension, scale } from "../../constants/size.constants";
 import MiniMap from "../map/mini-map";
+import NotificationWrapper from "../notification-wrapper/notification-wrapper";
 import SectionStack from "../section-stack/section-stack";
 import { IContent } from "../section-stack/section-stack.types";
+import { LayoutContext } from "./layout.context";
+import { positionCalculator } from "./layout.helper";
 import style from "./layout.module.scss";
 
-interface IPosition {
+export interface IPosition {
   x: number;
   y: number;
 }
-const positionCalculator = (
-  initialPos: IPosition,
-  event: any,
-  refernce: any,
-  window: any
-) => {
-  const position = {
-    x: initialPos.x + event.movementX,
-    y: initialPos.y + event.movementY,
-  };
-  if (position.x >= CanvasPadding.x) {
-    position.x = CanvasPadding.x;
-  }
-  if (position.y >= CanvasPadding.y) {
-    position.y = CanvasPadding.y;
-  }
-  if (
-    Math.abs(position.x) >=
-    refernce.width + CanvasPadding.x - window.innerWidth
-  ) {
-    position.x = (refernce.width + CanvasPadding.x - window.innerWidth) * -1;
-  }
-  if (
-    Math.abs(position.y) >=
-    refernce.height + CanvasPadding.y - window.innerHeight
-  ) {
-    position.y = (refernce.height + CanvasPadding.y - window.innerHeight) * -1;
-  }
-  return position;
-};
+
 const Layout = () => {
   const [canvasPos, setCanvasPos] = useState<IPosition>({ x: 0, y: 0 });
   const [mapPos, setMapPos] = useState<IPosition>({ x: 0, y: 0 });
-
+  const [notifications, setNotifications] = useState({});
   const [content, setContent] = useState<IContent[]>([]);
 
   const [mapItems, setMapItems] = useState<any[]>([]);
   const [sectionList, setSectionList] = useState<any[]>([]);
 
   const isMouseDown = useRef(false);
-
+  const deferedPos = useDeferredValue(canvasPos);
   const contentRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<any>();
+  const navigate = useNavigate();
 
   const onMouseMove = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    event:
+      | React.MouseEvent<HTMLDivElement, MouseEvent>
+      | React.TouchEvent<HTMLDivElement>,
     onClick = false
   ) => {
+    // console.log(event);
+
+    // console.log("touch");
     if (!isMouseDown.current && !onClick) return;
+    // console.log("touch");
+
     const position = positionCalculator(
       canvasPos,
       event,
       CanvasDimension,
       window
     );
-
     const newMapPos = {
       x: (position.x / scale.width) * -1,
       y: (position.y / scale.height) * -1,
@@ -79,22 +57,14 @@ const Layout = () => {
   };
   const changeSection = (mapItems: any, to: number) => {
     let newSectionList: any = [];
-    switch (to) {
-      case 0:
-        newSectionList = [...sectionList];
-        break;
-      case 1:
-        newSectionList = [...sectionList.slice(1), sectionList[0]];
-        break;
-      case -1:
-        newSectionList = [
-          sectionList[sectionList.length - 1],
-          ...sectionList.slice(0, sectionList.length - 1),
-        ];
-        break;
-    }
+
+    const poped = sectionList.splice(to, to > 0 ? sectionList.length - to : 1);
+
+    newSectionList = [...poped, ...sectionList];
+
     focusItem(newSectionList[0], mapItems);
     setSectionList(newSectionList);
+    navigate(`/${newSectionList[0]}`);
   };
 
   const focusItem = (section: any, mapItems: any) => {
@@ -114,6 +84,9 @@ const Layout = () => {
   };
   useEffect(() => {
     document.addEventListener("mouseup", () => {
+      isMouseDown.current = false;
+    });
+    document.addEventListener("touchend", () => {
       isMouseDown.current = false;
     });
   }, []);
@@ -211,14 +184,12 @@ const Layout = () => {
       const distance = Math.sqrt(
         Math.abs(Math.pow(distanceX, 2) - Math.pow(distanceY, 2))
       );
-      console.log(item.getAttribute("data-zone"), distance);
 
       if (distance < closestDistance) {
         closestZone = item.getAttribute("data-zone");
         closestDistance = distance;
       }
     });
-    console.log(closestZone);
 
     if (sectionList[0] != closestZone && closestZone) {
       updateZoneList(closestZone);
@@ -237,7 +208,12 @@ const Layout = () => {
   }, []);
 
   return (
-    <>
+    <LayoutContext.Provider
+      value={{
+        changeSection: (index: number) => changeSection(mapItems, index),
+        sectionList,
+      }}
+    >
       <MiniMap
         activeSection={sectionList[0]}
         mapPos={mapPos}
@@ -246,7 +222,8 @@ const Layout = () => {
         sections={mapItems}
         changeSection={(index) => changeSection(mapItems, index)}
       />
-      <div
+      <NotificationWrapper notifications={notifications} />
+      {/* <div
         style={{
           position: "fixed",
           left: window.innerWidth / 2,
@@ -255,13 +232,20 @@ const Layout = () => {
           borderLeft: "thin solid black",
           zIndex: 1000,
         }}
-      ></div>
+      ></div> */}
       <div
         className={style.layout}
         onMouseDown={() => {
           isMouseDown.current = true;
         }}
         onMouseMove={onMouseMove}
+        // onTouchMove={onMouseMove}
+        onTouchStart={() => {
+          console.log("yo");
+
+          isMouseDown.current = true;
+        }}
+        onPointerMove={onMouseMove}
       >
         <div
           ref={contentRef}
@@ -271,7 +255,7 @@ const Layout = () => {
             height: CanvasDimension.height,
             maxWidth: CanvasDimension.width,
             maxHeight: CanvasDimension.height,
-            transform: `translate(${canvasPos.x}px,${canvasPos.y}px)`,
+            transform: `translate(${deferedPos.x}px,${deferedPos.y}px)`,
             display: "flex",
             justifyContent: "space-between",
             flexWrap: "wrap",
@@ -281,7 +265,7 @@ const Layout = () => {
           <SectionStack updateMapItem={updateMapItem} data={content} />
         </div>
       </div>
-    </>
+    </LayoutContext.Provider>
   );
 };
 

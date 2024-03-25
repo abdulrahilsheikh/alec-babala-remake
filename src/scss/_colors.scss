@@ -4,11 +4,11 @@ $antiflash-white: #e9ecefff;
 $platinum: #dee2e6ff;
 $french-gray: #ced4daff;
 $french-gray-2: #adb5bdff;
-$slate-gray: #6c757dff;
 $outer-space: #495057ff;
 $onyx: #343a40ff;
 $eerie-black: #212529ff;
 
+$SLATE_GRAY: #6c757dff;
 $BG_COLOR: #ebeaf0;
 $BG_COLOR_1: #f5f5f5;
 $BG_COLOR_2: hsla(0, 0%, 100%, 0.5);
@@ -16,6 +16,7 @@ $BG_COLOR_3: #f8f5f6;
 $BOX_SHADOW: 0 0 10px 1px rgba(0, 0, 0, 0.1);
 $TEXT_COLOR_1: #343a40ff;
 $TEXT_COLOR_2: rgb(28, 30, 32);
+$TEXT_COLOR_3: $outer-space;
 
 $GRID_COLOR: #cfcfcf;
 $PAPER_COLOR: $BG_COLOR;

@@ -43,6 +43,14 @@ export interface IDataGrid {
   link: string;
 }
 
+export interface IDataList {
+  contentType: string;
+  title: string;
+  position: Position;
+  link: string;
+  content: ListContent[];
+}
+
 export interface Position {
   x: number;
   y: number;
@@ -58,4 +66,9 @@ export interface Content {
   title: string;
   src: string;
   link: string;
+}
+export interface ListContent {
+  name: string;
+  tag: string;
+  date: string;
 }

@@ -1,7 +1,5 @@
-$BG_COLOR: #ebeaf0;
-$BG_COLOR_1: #f5f5f5;
-$BG_COLOR_2: hsla(0, 0%, 100%, 0.5);
-$BOX_SHADOW: 0 0 10px 1px rgba(0, 0, 0, 0.1);
+@import "../../scss/_colors.scss";
+@import "../../scss/_common-style.scss";
 .map-container {
   position: absolute;
   top: 0.5rem;
@@ -29,10 +27,15 @@ $BOX_SHADOW: 0 0 10px 1px rgba(0, 0, 0, 0.1);
 
       .text {
         flex: 1 1 0%;
+        color: #7c7c7c;
+        font-size: 1rem;
+        span {
+          color: $TEXT_COLOR_2;
+        }
       }
       .button {
         cursor: pointer;
-        background-color: none;
+        background-color: transparent;
         border: none;
         outline: none;
         display: flex;
@@ -41,6 +44,7 @@ $BOX_SHADOW: 0 0 10px 1px rgba(0, 0, 0, 0.1);
         height: 1.25rem;
         width: 1.25rem;
         i {
+          background-color: transparent;
           transition: transform 0.25s ease;
           &.open {
             transform: rotate(180deg);
@@ -51,7 +55,7 @@ $BOX_SHADOW: 0 0 10px 1px rgba(0, 0, 0, 0.1);
 
     .map {
       position: relative;
-      height: 12rem;
+      height: 10rem;
       background-color: $BG_COLOR_1;
       overflow: hidden;
     }

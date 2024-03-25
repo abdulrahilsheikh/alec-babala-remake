@@ -1,0 +1,40 @@
+@import "../../scss/_colors.scss";
+@import "../../scss/_common-style.scss";
+
+.data_list_container {
+  @extend .basic_container;
+
+  min-height: auto;
+  max-height: 250px;
+  .title {
+    @extend .title;
+  }
+  .body {
+    .row {
+      display: grid;
+      grid-template-columns: 2fr repeat(2, 1fr);
+      font-size: 13px;
+      padding: 0.15rem;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      font-weight: 500;
+      opacity: 0.85;
+
+      &:hover {
+        opacity: 1;
+        background-color: $TEXT_COLOR_1;
+        color: white;
+      }
+    }
+    .row_header {
+      display: grid;
+      grid-template-columns: 2fr repeat(2, 1fr);
+      font-size: 13px;
+      padding: 0.15rem;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      font-weight: 400;
+      color: $SLATE_GRAY;
+    }
+  }
+}

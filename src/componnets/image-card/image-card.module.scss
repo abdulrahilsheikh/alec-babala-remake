@@ -9,7 +9,10 @@
   align-items: center;
   gap: 0.25rem;
   user-select: none;
-
+  transition: transform 0.35s ease-in-out;
+  &:hover {
+    transform: scale(1.025);
+  }
   .imgae_card {
     padding: 0.5rem;
     border-radius: 0.5rem;

@@ -4,7 +4,7 @@ export const CanvasDimension = {
 };
 export const MapDimension = {
   width: 20 * 16,
-  height: 12 * 16,
+  height: 10 * 16,
 };
 
 export const scale = {
