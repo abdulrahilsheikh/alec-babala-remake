@@ -1,0 +1,78 @@
+@import "../../scss/_colors.scss";
+@import "../../scss/_common-style.scss";
+
+.container {
+  @extend .basic_container;
+
+  .title {
+    @extend .title;
+  }
+  .body {
+    padding: 2rem;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+
+    .img_contaienr {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .img_section {
+        width: 6rem;
+        height: 6rem;
+        overflow: hidden;
+        border-radius: 9999px;
+        box-shadow: $BOX_SHADOW;
+        border: thin solid #cccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .img {
+          position: relative;
+          top: 1rem;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+    .info {
+      margin-top: 1.25rem;
+      margin-bottom: 1.25rem;
+      text-align: center;
+      .name {
+        font-weight: bold;
+        font-size: 1.55rem;
+        color: $TEXT_COLOR_2;
+      }
+      .profession {
+        font-weight: bold;
+        color: $TEXT_COLOR_1;
+        font-size: 0.75rem;
+      }
+    }
+    .bio {
+      font-weight: bold;
+      font-size: 0.75rem;
+      color: $TEXT_COLOR_1;
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    .intro_row {
+      margin-top: 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      .intro_row_title {
+        flex: 0 0 50%;
+        text-align: right;
+      }
+      .intr0_row_content {
+        flex: 0 0 50%;
+      }
+    }
+    h2 {
+      margin: 0px;
+    }
+  }
+}

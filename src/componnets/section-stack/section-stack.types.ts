@@ -1,0 +1,61 @@
+export type Root = IContent[];
+
+export type IContent = ISocialLinks | IImageScreen | IMainSection;
+
+export interface ISocialLinks {
+  contentType: "SocialLinks";
+  position: Position;
+  link: string;
+  externalLink: ExternalLink;
+}
+
+export interface IImageScreen {
+  contentType: "ImageScreen";
+  title: string;
+  position: Position;
+  src: string;
+  metaData: string;
+  link: string;
+}
+
+export interface IMainSection {
+  contentType: string;
+  title: string;
+  position: Position;
+  isZoneCenter: boolean;
+  link: string;
+}
+export interface ITextStack {
+  contentType: string;
+  title: string;
+  position: Position;
+  content: string[][];
+  isZoneCenter: boolean;
+  link: string;
+}
+
+export interface IDataGrid {
+  contentType: string;
+  title: string;
+  position: Position;
+  content: Content[];
+  isZoneCenter: boolean;
+  link: string;
+}
+
+export interface Position {
+  x: number;
+  y: number;
+}
+
+export interface ExternalLink {
+  github: string;
+  linkedIn: string;
+  devTo: string;
+}
+
+export interface Content {
+  title: string;
+  src: string;
+  link: string;
+}

@@ -1,0 +1,42 @@
+@import "../../scss/_colors.scss";
+@import "../../scss/_common-style.scss";
+
+.imgae_container {
+  position: absolute;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  user-select: none;
+
+  .imgae_card {
+    background-color: $BG_COLOR_3;
+    color: black;
+    box-shadow: $BOX_SHADOW;
+    height: min-content;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.75rem;
+    overflow: hidden;
+
+    .image_screen_title {
+      @extend .title;
+    }
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      user-select: none;
+      height: auto;
+      transition: height 0.25s ease;
+    }
+  }
+
+  .image_meta {
+    font-weight: 700;
+    color: $TEXT_COLOR_2;
+    font-size: 0.825rem;
+    text-wrap: balance;
+  }
+}

@@ -1,0 +1,46 @@
+@import "../../scss/_colors.scss";
+@import "../../scss/_common-style.scss";
+
+.imgae_container {
+  position: absolute;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  user-select: none;
+
+  .imgae_card {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: $BG_COLOR_3;
+    color: black;
+    box-shadow: $BOX_SHADOW;
+    height: min-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      border-radius: 0.5rem;
+      width: 100%;
+      object-fit: cover;
+      user-select: none;
+    }
+  }
+  .image_title {
+    font-weight: 700;
+    color: $TEXT_COLOR_2;
+    font-size: 0.825rem;
+    text-wrap: balance;
+  }
+  .image_meta {
+    font-weight: 700;
+    color: $TEXT_COLOR_1;
+    font-size: 0.75rem;
+  }
+}

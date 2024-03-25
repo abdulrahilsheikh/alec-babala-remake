@@ -1,7 +1,6 @@
-$BG_COLOR: #ebeaf0;
-$BG_COLOR_1: #f5f5f5;
-$BG_COLOR_2: hsla(0, 0%, 100%, 0.5);
-$BOX_SHADOW: 0 0 10px 1px rgba(0, 0, 0, 0.1);
+@import "../../scss/_colors.scss";
+@import "../../scss/_common-style.scss";
+
 .layout {
   height: 100vh;
   position: relative;
@@ -11,5 +10,36 @@ $BOX_SHADOW: 0 0 10px 1px rgba(0, 0, 0, 0.1);
   .canvas {
     background-color: $BG_COLOR;
     transition: transform 0.35s ease-out;
+
+    &.dashed-grid-paper {
+      --grid-size: 50px;
+      --grid-strength: 1px;
+      --grid-dash: 10px;
+      --grid-gap: 5px;
+
+      background-color: $PAPER_COLOR;
+      background-size: var(--grid-dash) var(--grid-dash),
+        var(--grid-size) var(--grid-size);
+      background-image: linear-gradient(
+          to bottom,
+          transparent var(--grid-gap),
+          $PAPER_COLOR var(--grid-gap)
+        ),
+        linear-gradient(
+          to right,
+          $GRID_COLOR var(--grid-strength),
+          transparent var(--grid-strength)
+        ),
+        linear-gradient(
+          to right,
+          transparent var(--grid-gap),
+          $PAPER_COLOR var(--grid-gap)
+        ),
+        linear-gradient(
+          to bottom,
+          $GRID_COLOR var(--grid-strength),
+          transparent var(--grid-strength)
+        );
+    }
   }
 }

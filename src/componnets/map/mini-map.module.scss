@@ -25,12 +25,35 @@ $BOX_SHADOW: 0 0 10px 1px rgba(0, 0, 0, 0.1);
       align-items: center;
       font-weight: 700;
       border-bottom: thin solid #ccc;
+      gap: 0.5rem;
+
+      .text {
+        flex: 1 1 0%;
+      }
+      .button {
+        cursor: pointer;
+        background-color: none;
+        border: none;
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 1.25rem;
+        width: 1.25rem;
+        i {
+          transition: transform 0.25s ease;
+          &.open {
+            transform: rotate(180deg);
+          }
+        }
+      }
     }
 
     .map {
       position: relative;
       height: 12rem;
       background-color: $BG_COLOR_1;
+      overflow: hidden;
     }
   }
 }

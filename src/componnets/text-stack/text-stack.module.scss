@@ -1,0 +1,25 @@
+@import "../../scss/_colors.scss";
+@import "../../scss/_common-style.scss";
+
+.container {
+  @extend .basic_container;
+  min-height: 250px;
+  &:hover {
+    transform: scale(1.025);
+  }
+  .title {
+    @extend .title;
+  }
+  .body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    p {
+      font-weight: 500;
+      opacity: 0.75;
+      font-size: 0.825rem;
+    }
+  }
+}

@@ -1,11 +1,22 @@
-import { BaseSyntheticEvent, useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import style from "./mini-map.module.scss";
 type Props = {
   mapPos: { x: number; y: number };
   scale: { height: number; width: number };
   onMapClick: (data: any, bool: any) => void;
+  changeSection: (index: number) => void;
+  sections: any[];
+  activeSection: string;
 };
-const MiniMap = ({ mapPos, scale, onMapClick }: Props) => {
+const MiniMap = ({
+  mapPos,
+  scale,
+  onMapClick,
+  sections,
+  changeSection,
+  activeSection,
+}: Props) => {
+  const [open, setOpen] = useState(true);
   const mapRef = useRef<HTMLDivElement>(null);
   const shiftCanvas = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -25,7 +36,20 @@ const MiniMap = ({ mapPos, scale, onMapClick }: Props) => {
   return (
     <div className={style["map-container"]}>
       <div className={style["canvas-map"]}>
-        <div className={style.title}>rahil.sheikh / stories</div>
+        <div className={style.title}>
+          <button className={style.button} onClick={() => setOpen(!open)}>
+            <i
+              className={`fa-solid fa-chevron-down ${open ? style.open : ""}`}
+            ></i>
+          </button>
+          <div className={style.text}>rahil.sheikh / {activeSection}</div>
+          <button className={style.button} onClick={() => changeSection(1)}>
+            <i className={`fa-solid fa-chevron-left  `}></i>
+          </button>
+          <button className={style.button} onClick={() => changeSection(-1)}>
+            <i className={`fa-solid fa-chevron-right `}></i>
+          </button>
+        </div>
         <div
           ref={mapRef}
           className={style["map"]}
@@ -33,25 +57,33 @@ const MiniMap = ({ mapPos, scale, onMapClick }: Props) => {
             shiftCanvas(e);
           }}
         >
-          <div
-            style={{
-              position: "absolute",
-              left: 725 / scale.width,
-              top: 298 / scale.height,
-              height: 430 / scale.height,
-              width: 360 / scale.width,
-              backgroundColor: "rgba(0,0,0,0.25)",
-            }}
-          ></div>
+          {sections.map((item, index) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: item.left,
+                  top: item.top,
+                  height: item.height,
+                  width: item.width,
+                  transition: "background-color 0.35s ease",
+                  backgroundColor:
+                    item.id == activeSection
+                      ? "#343a40ff"
+                      : "rgba(155,155,155,0.25)",
+                }}
+              ></div>
+            );
+          })}
           <div
             style={{
               transition: "all 0.25s linear",
               position: "absolute",
-              left: mapPos.x,
-              top: mapPos.y,
               height: window.innerHeight / scale.height,
               width: window.innerWidth / scale.width,
-              backgroundColor: "rgba(0,0,0,0.25)",
+              backgroundColor: "rgba(155,155,155,0.25)",
+              transform: `translate(${mapPos.x}px,${mapPos.y}px)`,
             }}
           ></div>
         </div>
