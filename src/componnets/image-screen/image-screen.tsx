@@ -1,4 +1,4 @@
-import { IContent, IImageScreen } from "../section-stack/section-stack.types";
+import { IImageScreen } from "../section-stack/section-stack.types";
 import style from "./image-screen.module.scss";
 type Props = {
   data: IImageScreen;

@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import data from "../../constants/content-data";
 import {
   CanvasDimension,
   CanvasPadding,
   scale,
 } from "../../constants/size.constants";
+import MiniMap from "../map/mini-map";
 import SectionStack from "../section-stack/section-stack";
 import { IContent } from "../section-stack/section-stack.types";
-import MiniMap from "../map/mini-map";
 import style from "./layout.module.scss";
 
 interface IPosition {
@@ -179,8 +179,6 @@ const Layout = () => {
   };
 
   const updateClosestZone = () => {
-    let closestDistanceX = Infinity;
-    let closestDistanceY = Infinity;
     let closestDistance = Infinity;
     let closestZone = null;
 
