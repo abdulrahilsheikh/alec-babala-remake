@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import style from "./mini-map.module.scss";
+import { MapDimension } from "../../constants/size.constants";
 type Props = {
   mapPos: { x: number; y: number };
   scale: { height: number; width: number };
@@ -13,10 +14,8 @@ const MiniMap = ({
   scale,
   onMapClick,
   sections,
-  changeSection,
   activeSection,
 }: Props) => {
-  const [open, setOpen] = useState(true);
   const mapRef = useRef<HTMLDivElement>(null);
   const shiftCanvas = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -34,61 +33,50 @@ const MiniMap = ({
     []
   );
   return (
-    <div className={style["map-container"]}>
-      <div className={style["canvas-map"]}>
-        <div className={style.title}>
-          <button className={style.button} onClick={() => setOpen(!open)}>
-            <i
-              className={`fa-solid fa-chevron-down ${open ? style.open : ""}`}
-            ></i>
-          </button>
-          <div className={style.text}>
-            rahil.sheikh / <span>{activeSection}</span>
-          </div>
-          <button className={style.button} onClick={() => changeSection(-1)}>
-            <i className={`fa-solid fa-chevron-left `}></i>
-          </button>
-          <button className={style.button} onClick={() => changeSection(1)}>
-            <i className={`fa-solid fa-chevron-right `}></i>
-          </button>
-        </div>
-        <div
-          ref={mapRef}
-          className={style["map"]}
-          onClick={(e) => {
-            shiftCanvas(e);
-          }}
-        >
-          {sections.map((item, index) => {
-            return (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: item.left,
-                  top: item.top,
-                  height: item.height,
-                  width: item.width,
-                  transition: "background-color 0.35s ease",
-                  backgroundColor:
-                    item.id == activeSection
-                      ? "#343a40ff"
-                      : "rgba(155,155,155,0.25)",
-                }}
-              ></div>
-            );
-          })}
+    <div
+      ref={mapRef}
+      className={style["map"]}
+      style={{ width: MapDimension.width, height: MapDimension.height }}
+      onClick={(e) => {
+        shiftCanvas(e);
+      }}
+    >
+      {sections.map((item, index) => {
+        return (
           <div
+            key={index}
             style={{
-              transition: "all 0.25s linear",
               position: "absolute",
-              height: window.innerHeight / scale.height,
-              width: window.innerWidth / scale.width,
-              backgroundColor: "rgba(155,155,155,0.25)",
-              transform: `translate(${mapPos.x}px,${mapPos.y}px)`,
+              left: item.left,
+              top: item.top,
+              height: item.height,
+              width: item.width,
+              transition: "background-color 0.35s ease",
+              backgroundColor:
+                item.id == activeSection
+                  ? "#343a40ff"
+                  : "rgba(155,155,155,0.25)",
             }}
           ></div>
-        </div>
+        );
+      })}
+      <div
+        style={{
+          transition: "all 0.15s linear",
+          position: "absolute",
+          height: window.innerHeight / scale.height,
+          width: window.innerWidth / scale.width,
+          backgroundColor: "rgba(155,155,155,0.25)",
+          transform: `translate(${mapPos.x}px,${mapPos.y}px)`,
+        }}
+      >
+        <div
+          style={{
+            border: "thin solid black",
+            margin: "auto",
+            width: "1px",
+          }}
+        ></div>
       </div>
     </div>
   );

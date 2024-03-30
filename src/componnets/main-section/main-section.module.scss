@@ -4,12 +4,13 @@
 .container {
   @extend .basic_container;
   width: 350px;
+  min-height: fit-content;
   .title {
     @extend .title;
   }
   .body {
     padding: 2rem;
-    height: 250px;
+
     display: flex;
     flex-direction: column;
 
@@ -30,7 +31,7 @@
         justify-content: center;
         .img {
           position: relative;
-          top: 1rem;
+
           width: 100%;
           object-fit: cover;
         }
@@ -63,14 +64,13 @@
     .intro_row {
       margin-top: 1.25rem;
       margin-bottom: 1.25rem;
-      display: flex;
+
       gap: 0.5rem;
       font-size: 14px;
       font-weight: 400;
-      .intro_row_title {
-        flex: 0 0 50%;
-        text-align: right;
-      }
+
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
       .intr0_row_content {
         flex: 0 0 50%;
         display: flex;

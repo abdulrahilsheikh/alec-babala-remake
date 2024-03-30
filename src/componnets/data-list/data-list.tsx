@@ -1,4 +1,3 @@
-import React from "react";
 import style from "./data-list.module.scss";
 type Props = { data: any };
 
@@ -16,7 +15,7 @@ const DataList = ({ data }: Props) => {
           <div>Tag</div>
           <div>Date</div>
         </div>
-        {data.content.map((item) => {
+        {data.content.map((item: any) => {
           return (
             <div className={style.row}>
               <div>{item.name}</div>

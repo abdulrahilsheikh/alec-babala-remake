@@ -3,7 +3,7 @@ export const CanvasDimension = {
   height: 2200,
 };
 export const MapDimension = {
-  width: 20 * 16,
+  width: 18.75 * 16,
   height: 10 * 16,
 };
 
@@ -13,6 +13,6 @@ export const scale = {
 };
 
 export const CanvasPadding = {
-  x: 400,
-  y: 400,
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
 };

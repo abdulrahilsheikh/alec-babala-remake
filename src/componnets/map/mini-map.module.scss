@@ -1,63 +1,8 @@
 @import "../../scss/_colors.scss";
 @import "../../scss/_common-style.scss";
-.map-container {
-  position: absolute;
-  top: 0.5rem;
-  left: 0.5rem;
-  z-index: 1;
 
-  .canvas-map {
-    border-radius: 0.5rem;
-    width: 20rem;
-    background-color: $BG_COLOR_2;
-    box-shadow: $BOX_SHADOW;
-    backdrop-filter: blur(6px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-
-    .title {
-      padding: 0.75rem;
-      color: rgb(0 0 0);
-      display: flex;
-      align-items: center;
-      font-weight: 700;
-      border-bottom: thin solid #ccc;
-      gap: 0.5rem;
-
-      .text {
-        flex: 1 1 0%;
-        color: #7c7c7c;
-        font-size: 1rem;
-        span {
-          color: $TEXT_COLOR_2;
-        }
-      }
-      .button {
-        cursor: pointer;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 1.25rem;
-        width: 1.25rem;
-        i {
-          background-color: transparent;
-          transition: transform 0.25s ease;
-          &.open {
-            transform: rotate(180deg);
-          }
-        }
-      }
-    }
-
-    .map {
-      position: relative;
-      height: 10rem;
-      background-color: $BG_COLOR_1;
-      overflow: hidden;
-    }
-  }
+.map {
+  position: relative;
+  background-color: $BG_COLOR_1;
+  overflow: hidden;
 }

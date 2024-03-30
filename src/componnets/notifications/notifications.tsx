@@ -1,8 +1,6 @@
-import React from "react";
-
 type Props = {};
 
-const Notifications = (props: Props) => {
+const Notifications = ({}: Props) => {
   return <div>Notifications</div>;
 };
 

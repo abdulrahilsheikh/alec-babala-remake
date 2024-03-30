@@ -1,9 +1,7 @@
-import React, { useDeferredValue, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import data from "../../constants/content-data";
 import { CanvasDimension, scale } from "../../constants/size.constants";
-import MiniMap from "../map/mini-map";
-import NotificationWrapper from "../notification-wrapper/notification-wrapper";
+import MiniMapDesktop from "../mini-map-desktop/mini-map-desktop";
 import SectionStack from "../section-stack/section-stack";
 import { IContent } from "../section-stack/section-stack.types";
 import { LayoutContext } from "./layout.context";
@@ -19,28 +17,23 @@ const Layout = () => {
   const [canvasPos, setCanvasPos] = useState<IPosition>({ x: 0, y: 0 });
   const [mapPos, setMapPos] = useState<IPosition>({ x: 0, y: 0 });
   const [notifications, setNotifications] = useState({});
+  setNotifications;
+  notifications;
   const [content, setContent] = useState<IContent[]>([]);
 
   const [mapItems, setMapItems] = useState<any[]>([]);
   const [sectionList, setSectionList] = useState<any[]>([]);
 
-  const isMouseDown = useRef(false);
-  const deferedPos = useDeferredValue(canvasPos);
+  const mouseInitialPos = useRef<null | { initX: number; initY: number }>(null);
+
   const contentRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<any>();
-  const navigate = useNavigate();
 
   const onMouseMove = (
-    event:
-      | React.MouseEvent<HTMLDivElement, MouseEvent>
-      | React.TouchEvent<HTMLDivElement>,
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     onClick = false
   ) => {
-    // console.log(event);
-
-    // console.log("touch");
-    if (!isMouseDown.current && !onClick) return;
-    // console.log("touch");
+    if (!mouseInitialPos.current && !onClick) return;
 
     const position = positionCalculator(
       canvasPos,
@@ -55,6 +48,16 @@ const Layout = () => {
     setCanvasPos(position);
     setMapPos(newMapPos);
   };
+
+  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const movementX = e.touches[0].clientX - mouseInitialPos.current?.initX!;
+    const movementY = e.touches[0].clientY - mouseInitialPos.current?.initY!;
+
+    mouseInitialPos.current!.initX! = e.touches[0].clientX;
+    mouseInitialPos.current!.initY! = e.touches[0].clientY;
+
+    onMouseMove({ movementX, movementY } as any);
+  };
   const changeSection = (mapItems: any, to: number) => {
     let newSectionList: any = [];
 
@@ -64,7 +67,7 @@ const Layout = () => {
 
     focusItem(newSectionList[0], mapItems);
     setSectionList(newSectionList);
-    navigate(`/${newSectionList[0]}`);
+    // navigate(`/${newSectionList[0]}`);
   };
 
   const focusItem = (section: any, mapItems: any) => {
@@ -84,10 +87,10 @@ const Layout = () => {
   };
   useEffect(() => {
     document.addEventListener("mouseup", () => {
-      isMouseDown.current = false;
+      mouseInitialPos.current = null;
     });
     document.addEventListener("touchend", () => {
-      isMouseDown.current = false;
+      mouseInitialPos.current = null;
     });
   }, []);
 
@@ -214,7 +217,7 @@ const Layout = () => {
         sectionList,
       }}
     >
-      <MiniMap
+      <MiniMapDesktop
         activeSection={sectionList[0]}
         mapPos={mapPos}
         scale={scale}
@@ -222,7 +225,8 @@ const Layout = () => {
         sections={mapItems}
         changeSection={(index) => changeSection(mapItems, index)}
       />
-      <NotificationWrapper notifications={notifications} />
+
+      {/* <NotificationWrapper notifications={notifications} /> */}
       {/* <div
         style={{
           position: "fixed",
@@ -233,36 +237,36 @@ const Layout = () => {
           zIndex: 1000,
         }}
       ></div> */}
-      <div
-        className={style.layout}
-        onMouseDown={() => {
-          isMouseDown.current = true;
-        }}
-        onMouseMove={onMouseMove}
-        // onTouchMove={onMouseMove}
-        onTouchStart={() => {
-          console.log("yo");
-
-          isMouseDown.current = true;
-        }}
-        onPointerMove={onMouseMove}
-      >
+      <div>
         <div
-          ref={contentRef}
-          className={`${style.canvas} ${style["dashed-grid-paper"]}`}
-          style={{
-            width: CanvasDimension.width,
-            height: CanvasDimension.height,
-            maxWidth: CanvasDimension.width,
-            maxHeight: CanvasDimension.height,
-            transform: `translate(${deferedPos.x}px,${deferedPos.y}px)`,
-            display: "flex",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "10px",
+          className={style.layout}
+          // {...handlers}
+          onMouseDown={(e) => {
+            mouseInitialPos.current = { initX: e.clientX, initY: e.clientY };
           }}
+          onMouseMove={onMouseMove}
+          onPointerDown={(e) => {
+            mouseInitialPos.current = { initX: e.clientX, initY: e.clientY };
+          }}
+          onTouchMove={(e) => {
+            // mouseInitialPos.current = { initX: e.clientX, initY: e.clientY };
+            onTouchMove(e);
+          }}
+          style={{ width: window.innerWidth }}
         >
-          <SectionStack updateMapItem={updateMapItem} data={content} />
+          <div
+            ref={contentRef}
+            className={`${style.canvas} ${style["dashed-grid-paper"]}`}
+            style={{
+              width: CanvasDimension.width,
+              height: CanvasDimension.height,
+              maxWidth: CanvasDimension.width,
+              maxHeight: CanvasDimension.height,
+              transform: `translate(${canvasPos.x}px,${canvasPos.y}px)`,
+            }}
+          >
+            <SectionStack updateMapItem={updateMapItem} data={content} />
+          </div>
         </div>
       </div>
     </LayoutContext.Provider>

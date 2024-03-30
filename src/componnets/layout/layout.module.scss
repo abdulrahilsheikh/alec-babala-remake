@@ -1,16 +1,18 @@
 @import "../../scss/_colors.scss";
-@import "../../scss/_common-style.scss";
 
 .layout {
-  height: 100vh;
+  max-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  scrollbar-width: none;
   user-select: none;
   background-color: $BG_COLOR;
 
   .canvas {
     background-color: $BG_COLOR;
-    transition: transform 0.35s ease-out;
+
+    transition: transform 0.15s ease-out;
 
     &.dashed-grid-paper {
       --grid-size: 50px;
@@ -43,4 +45,11 @@
         );
     }
   }
+}
+
+.mini_map_desktop {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 10;
 }

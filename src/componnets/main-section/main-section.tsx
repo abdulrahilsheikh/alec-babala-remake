@@ -1,8 +1,8 @@
-import { useContext, useMemo } from "react";
-import profileImg from "../../assets/profile-img.png";
+import { useContext } from "react";
+import profileImg from "../../assets/face.png";
+import { LayoutContext } from "../layout/layout.context";
 import { IMainSection } from "../section-stack/section-stack.types";
 import style from "./main-section.module.scss";
-import { LayoutContext } from "../layout/layout.context";
 type Props = {
   data: IMainSection;
 };
@@ -34,9 +34,9 @@ const MainSection = ({ data }: Props) => {
           seamlessly into teams for impactful digital experiences.
         </div>
         <div className={style.intro_row}>
-          <div className={style.intro_row_title}>Capabilities</div>
+          <div></div>
           <div className={style.intr0_row_content}>
-            {sectionList.map((i, index) =>
+            {sectionList.map((i: any, index: number) =>
               i == data.link ? null : (
                 <div className={style.row_item}>
                   <span>{i}</span>
@@ -47,6 +47,7 @@ const MainSection = ({ data }: Props) => {
               )
             )}
           </div>
+          <div></div>
         </div>
       </div>
     </div>
