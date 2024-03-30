@@ -1,0 +1,60 @@
+@import "../../scss/_colors.scss";
+@import "../../scss/_common-style.scss";
+
+.container {
+  @extend .instant_animate;
+  background-color: #ffff;
+
+  color: black;
+  box-shadow: $BOX_SHADOW;
+  width: 280px;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  &.mount {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: popIn 0.25s ease-in-out forwards;
+  }
+
+  &.unmount {
+    opacity: 1;
+    transform: translateY(0px);
+    animation: popOut 0.25s ease-in-out forwards;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    .indicator {
+      background-color: rgb(252 211 77);
+      height: 1rem;
+      width: 1rem;
+      border-radius: 1rem;
+      color: $TEXT_COLOR_1;
+    }
+  }
+  .description {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $TEXT_COLOR_1;
+    opacity: 0.75;
+  }
+}
+
+@keyframes popIn {
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@keyframes popOut {
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}

@@ -1,11 +1,19 @@
-export const notifiaction = {
-  contacts: [
+export const notifiactionData = {
+  contact: [
     {
-      title: "",
-      description: "",
+      title: "LinkedIn",
+      description: "You can find me on linked in as @AbulRahil",
+    },
+    {
+      title: "LinkedIn",
+      description: "You can find me on linked in as @AbulRahil",
+    },
+    {
+      title: "LinkedIn",
+      description: "You can find me on linked in as @AbulRahil",
     },
   ],
-  interfaces: [
+  interface: [
     {
       title: "",
       description: "",

@@ -2,6 +2,8 @@
 @import "../../scss/_common-style.scss";
 
 .socail_link_container {
+  @extend .animate_presence;
+
   position: absolute;
   .social_item {
     width: 100px;

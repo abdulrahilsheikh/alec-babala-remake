@@ -11,8 +11,3 @@ export const scale = {
   width: CanvasDimension.width / MapDimension.width,
   height: CanvasDimension.height / MapDimension.height,
 };
-
-export const CanvasPadding = {
-  x: window.innerWidth / 2,
-  y: window.innerHeight / 2,
-};

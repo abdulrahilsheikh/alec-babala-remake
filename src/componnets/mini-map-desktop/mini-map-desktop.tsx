@@ -19,11 +19,14 @@ const MiniMapDesktop = ({
   activeSection,
 }: Props) => {
   const [open, setOpen] = useState(true);
-
+  const [ready, setReady] = useState(false);
   return (
-    <div className={style["map-container"]}>
+    <div
+      onAnimationEnd={() => setReady(true)}
+      className={style["map-container"]}
+    >
       <div className={style["canvas-map"]}>
-        <div className={style.title}>
+        <div className={style.header_title}>
           <button className={style.button} onClick={() => setOpen(!open)}>
             <i
               className={`fa-solid fa-chevron-down ${open ? style.open : ""}`}
@@ -39,14 +42,23 @@ const MiniMapDesktop = ({
             <i className={`fa-solid fa-chevron-right `}></i>
           </button>
         </div>
-        <MiniMap
-          activeSection={activeSection}
-          changeSection={changeSection}
-          mapPos={mapPos}
-          onMapClick={onMapClick}
-          scale={scale}
-          sections={sections}
-        />
+        <div
+          className={style.mini_map_area}
+          style={{
+            maxHeight: open ? 500 : 0,
+            opacity: open ? 1 : 0,
+            transition: `max-height .3s ease`,
+          }}
+        >
+          <MiniMap
+            activeSection={activeSection}
+            changeSection={ready ? changeSection : () => {}}
+            mapPos={mapPos}
+            onMapClick={onMapClick}
+            scale={scale}
+            sections={sections}
+          />
+        </div>
       </div>
     </div>
   );

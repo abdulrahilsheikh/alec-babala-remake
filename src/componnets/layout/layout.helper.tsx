@@ -1,4 +1,3 @@
-import { CanvasPadding } from "../../constants/size.constants";
 import { IPosition } from "./layout";
 
 export const positionCalculator = (
@@ -11,6 +10,11 @@ export const positionCalculator = (
     x: initialPos.x + event.movementX,
     y: initialPos.y + event.movementY,
   };
+  const CanvasPadding = {
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+  };
+
   if (position.x >= CanvasPadding.x) {
     position.x = CanvasPadding.x;
   }

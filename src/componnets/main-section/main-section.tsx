@@ -8,10 +8,12 @@ type Props = {
 };
 
 const MainSection = ({ data }: Props) => {
-  const { sectionList, changeSection }: any = useContext(LayoutContext);
+  const { sectionList, changeSection, updatemapVisibility }: any =
+    useContext(LayoutContext);
 
   return (
     <div
+      onAnimationEnd={updatemapVisibility}
       key={data.link}
       data-zone={data.link}
       className={style.container}

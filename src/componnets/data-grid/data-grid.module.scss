@@ -3,6 +3,7 @@
 
 .data_grid_container {
   @extend .basic_container;
+
   min-height: auto;
   width: min-content;
   .title {

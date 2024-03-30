@@ -8,25 +8,32 @@
   scrollbar-width: none;
   user-select: none;
   background-color: $BG_COLOR;
+  width: 100vw;
+  background-image: linear-gradient(
+    174.2deg,
+    rgb(248, 243, 235) 7.1%,
+    rgba(240, 246, 238, 1) 67.4%
+  );
 
   .canvas {
-    background-color: $BG_COLOR;
+    // background-color: $BG_COLOR;
+    background-color: transparent;
 
-    transition: transform 0.15s ease-out;
+    transition: transform 0.25s ease-out;
 
-    &.dashed-grid-paper {
+    &.dashed-grid-paper- {
       --grid-size: 50px;
       --grid-strength: 1px;
       --grid-dash: 10px;
       --grid-gap: 5px;
 
-      background-color: $PAPER_COLOR;
+      background-color: transparent;
       background-size: var(--grid-dash) var(--grid-dash),
         var(--grid-size) var(--grid-size);
       background-image: linear-gradient(
           to bottom,
           transparent var(--grid-gap),
-          $PAPER_COLOR var(--grid-gap)
+          transparent var(--grid-gap)
         ),
         linear-gradient(
           to right,
@@ -36,7 +43,7 @@
         linear-gradient(
           to right,
           transparent var(--grid-gap),
-          $PAPER_COLOR var(--grid-gap)
+          transparent var(--grid-gap)
         ),
         linear-gradient(
           to bottom,

@@ -1,15 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export function useMobileView(): boolean {
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (window.innerWidth < 650) {
-      setIsMobileView(true);
-    } else {
-      setIsMobileView(false);
-    }
-  }, [window.innerWidth, window.innerHeight]);
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 650);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return isMobileView;
 }
