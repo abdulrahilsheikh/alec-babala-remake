@@ -19,22 +19,18 @@ const MiniMap = ({
 }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const isMobileView = useMobileView();
-  const shiftCanvas = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      const rect = mapRef.current?.getBoundingClientRect();
+  const shiftCanvas = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = mapRef.current?.getBoundingClientRect();
+    const x =
+      (e.clientX - (rect?.left || 0) - mapPos.x) * -scale.width +
+      window.innerWidth / 2;
+    const y =
+      (e.clientY - (rect?.top || 0) - mapPos.y) * -scale.height +
+      window.innerHeight / 2;
 
-      const x =
-        (e.clientX - (rect?.left || 0) - mapPos.x) * -scale.width +
-        window.innerWidth / 2;
-      const y =
-        (e.clientY - (rect?.top || 0) - mapPos.y) * -scale.height +
-        window.innerHeight / 2;
-      console.log(x, y, rect?.left);
+    onMapClick({ movementX: x, movementY: y }, true);
+  };
 
-      onMapClick({ movementX: x, movementY: y }, true);
-    },
-    []
-  );
   return (
     <div
       ref={mapRef}
@@ -45,7 +41,8 @@ const MiniMap = ({
         shiftCanvas(e);
       }}
       onPointerDown={(e) => {
-        console.log(e);
+        if (!isMobileView) return;
+
         shiftCanvas(e);
       }}
     >

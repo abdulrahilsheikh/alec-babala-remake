@@ -1,5 +1,5 @@
 export const notifiactionData = {
-  contact: [
+  about: [
     {
       title: "LinkedIn",
       description: "You can find me on linked in as @AbulRahil",
@@ -13,13 +13,19 @@ export const notifiactionData = {
       description: "You can find me on linked in as @AbulRahil",
     },
   ],
-  interface: [
+  skills: [
     {
       title: "",
       description: "",
     },
   ],
-  skills: [
+  projects: [
+    {
+      title: "",
+      description: "",
+    },
+  ],
+  hobbies: [
     {
       title: "",
       description: "",

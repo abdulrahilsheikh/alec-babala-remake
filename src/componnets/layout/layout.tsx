@@ -75,6 +75,8 @@ const Layout = () => {
   };
 
   const focusItem = (section: any, mapItems: any) => {
+    console.log(section);
+
     const positionToFocus = mapItems.find(
       (item: any) => item.id == section && item.isZoneCenter
     );

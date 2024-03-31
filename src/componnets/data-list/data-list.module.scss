@@ -10,6 +10,8 @@
     @extend .title;
   }
   .body {
+    flex: 1 1 0%;
+    overflow: scroll;
     .row {
       display: grid;
       grid-template-columns: 2fr repeat(2, 1fr);
@@ -17,9 +19,9 @@
       padding: 0.15rem;
       padding-left: 0.5rem;
       padding-right: 0.5rem;
-      font-weight: 500;
-      opacity: 0.85;
-
+      font-weight: 600;
+      opacity: 0.75;
+      margin-bottom: 0.25rem;
       &:hover {
         opacity: 1;
         background-color: $TEXT_COLOR_1;
@@ -27,6 +29,7 @@
       }
     }
     .row_header {
+      margin-bottom: 0.25rem;
       display: grid;
       grid-template-columns: 2fr repeat(2, 1fr);
       font-size: 13px;

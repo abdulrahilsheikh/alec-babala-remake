@@ -51,6 +51,12 @@ const MainSection = ({ data }: Props) => {
           </div>
           <div></div>
         </div>
+        <div className={style.credits}>
+          Took reference for design from{" "}
+          <a href="https://www.alecbabala.com/" target="_blank">
+            @alecbabala/
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -95,5 +95,12 @@
         }
       }
     }
+    .credits {
+      font-weight: bold;
+      font-size: 0.75rem;
+      color: $TEXT_COLOR_1;
+      text-align: center;
+      text-wrap: balance;
+    }
   }
 }

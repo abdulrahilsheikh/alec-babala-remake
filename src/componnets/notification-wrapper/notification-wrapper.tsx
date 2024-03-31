@@ -10,7 +10,7 @@ const NotificationWrapper = ({ notifications }: Props) => {
   const [unmount, setUnmount] = useState(false);
   useEffect(() => {
     if (notificationList == notifications) return;
-    console.log(notificationList);
+
     setUnmount(true);
   }, [notifications]);
   const updateListState = () => {
@@ -24,7 +24,7 @@ const NotificationWrapper = ({ notifications }: Props) => {
           onAnimationEnd={
             index == notificationList.length - 1
               ? () => updateListState()
-              : null
+              : () => {}
           }
           unmount={unmount}
           index={index + 1}
