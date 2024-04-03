@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export function useMobileView(): boolean {
   const [isMobileView, setIsMobileView] = useState<boolean>(false);

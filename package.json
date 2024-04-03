@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://abdulrahilsheikh.github.io/alec-babala-remake",
+  "homepage": "https://abdulrahilsheikh.github.io/portfolio-v4",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",

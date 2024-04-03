@@ -1,5 +1,6 @@
+import { IDataList } from "../section-stack/section-stack.types";
 import style from "./data-list.module.scss";
-type Props = { data: any };
+type Props = { data: IDataList };
 
 const DataList = ({ data }: Props) => {
   return (

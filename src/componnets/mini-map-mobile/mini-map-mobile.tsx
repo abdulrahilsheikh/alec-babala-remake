@@ -1,12 +1,13 @@
 import { Fragment, useState } from "react";
 import MiniMap from "../map/mini-map";
 import style from "./mini-map-mobile.module.scss";
+import { IMapItem } from "../layout/layout";
 type Props = {
-  mapPos: { x: number; y: number };
+  mapPos: { currentPos: { x: number; y: number } };
   scale: { height: number; width: number };
   onMapClick: (data: any, bool: any) => void;
   changeSection: (index: number) => void;
-  sections: any[];
+  sections: IMapItem[];
   activeSection: string;
 };
 

@@ -1,6 +1,13 @@
 export type Root = IContent[];
 
-export type IContent = ISocialLinks | IImageScreen | IMainSection;
+export type IContent =
+  | ISocialLinks
+  | IImageScreen
+  | IMainSection
+  | ITextStack
+  | IDataGrid
+  | IDataList
+  | IImageCard;
 
 export interface ISocialLinks {
   contentType: "SocialLinks";
@@ -16,6 +23,16 @@ export interface IImageScreen {
   src: string;
   metaData: string;
   link: string;
+  externalLink?: string;
+}
+export interface IImageCard {
+  contentType: "ImageCard";
+  title: string;
+  position: Position;
+  src: string;
+  metaData: string;
+  link: string;
+  externalLink?: string;
 }
 
 export interface IMainSection {
@@ -26,11 +43,11 @@ export interface IMainSection {
   link: string;
 }
 export interface ITextStack {
-  contentType: string;
+  contentType: "TextStack";
   title: string;
   position: Position;
   content: string[][];
-  isZoneCenter: boolean;
+  isZoneCenter?: boolean;
   link: string;
 }
 
@@ -39,7 +56,7 @@ export interface IDataGrid {
   title: string;
   position: Position;
   content: Content[];
-  isZoneCenter: boolean;
+  isZoneCenter?: boolean;
   link: string;
 }
 

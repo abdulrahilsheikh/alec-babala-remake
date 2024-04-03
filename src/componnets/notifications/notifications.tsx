@@ -6,6 +6,7 @@ type Props = {
   index: number;
   unmount: boolean;
   onAnimationEnd?: () => void;
+  color: string;
 };
 
 const Notifications = ({
@@ -14,6 +15,7 @@ const Notifications = ({
   title,
   index,
   unmount,
+  color,
 }: Props) => {
   return (
     <div
@@ -22,7 +24,11 @@ const Notifications = ({
       className={`${style.container} ${unmount ? style.unmount : style.mount}`}
     >
       <div className={style.header}>
-        <div className={style.indicator}></div> {title}
+        <div
+          style={{ backgroundColor: color }}
+          className={style.indicator}
+        ></div>{" "}
+        {title}
       </div>
       <div className={style.description}>{description}</div>
     </div>

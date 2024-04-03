@@ -49,6 +49,7 @@
         height: 1.25rem;
         width: 1.25rem;
         i {
+          color: $TEXT_COLOR_2;
           background-color: transparent;
           transition: transform 0.25s ease;
           &.open {

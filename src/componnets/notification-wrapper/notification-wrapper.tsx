@@ -6,6 +6,8 @@ type Props = {
 };
 
 const NotificationWrapper = ({ notifications }: Props) => {
+  console.log(notifications);
+
   const [notificationList, setNotificationsList] = useState(notifications);
   const [unmount, setUnmount] = useState(false);
   useEffect(() => {
@@ -19,10 +21,11 @@ const NotificationWrapper = ({ notifications }: Props) => {
   };
   return (
     <div className={style.notifiaction_wrapper}>
-      {notificationList.map((item, index) => (
+      {notificationList.data.map((item: any, index: number) => (
         <Notifications
+          color={notificationList.color}
           onAnimationEnd={
-            index == notificationList.length - 1
+            index == notificationList.data.length - 1
               ? () => updateListState()
               : () => {}
           }

@@ -1,13 +1,15 @@
-import { useCallback, useRef, useState } from "react";
-import style from "./mini-map.module.scss";
+import { useContext, useRef } from "react";
 import { MapDimension } from "../../constants/size.constants";
 import { useMobileView } from "../../hooks/use-mobile-view";
+import style from "./mini-map.module.scss";
+import { LayoutContext } from "../layout/layout.context";
+import { IMapItem } from "../layout/layout";
 type Props = {
-  mapPos: { x: number; y: number };
+  mapPos: { currentPos: { x: number; y: number } };
   scale: { height: number; width: number };
   onMapClick: (data: any, bool: any) => void;
   changeSection: (index: number) => void;
-  sections: any[];
+  sections: IMapItem[];
   activeSection: string;
 };
 const MiniMap = ({
@@ -17,18 +19,20 @@ const MiniMap = ({
   sections,
   activeSection,
 }: Props) => {
+  const { mapBoxRef }: any = useContext(LayoutContext);
   const mapRef = useRef<HTMLDivElement>(null);
   const isMobileView = useMobileView();
   const shiftCanvas = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = mapRef.current?.getBoundingClientRect();
     const x =
-      (e.clientX - (rect?.left || 0) - mapPos.x) * -scale.width +
+      (e.clientX - (rect?.left || 0) - mapPos.currentPos.x) * -scale.width +
       window.innerWidth / 2;
     const y =
-      (e.clientY - (rect?.top || 0) - mapPos.y) * -scale.height +
+      (e.clientY - (rect?.top || 0) - mapPos.currentPos.y) * -scale.height +
       window.innerHeight / 2;
 
     onMapClick({ movementX: x, movementY: y }, true);
+    console.log(mapPos);
   };
 
   return (
@@ -66,13 +70,14 @@ const MiniMap = ({
         );
       })}
       <div
+        ref={(ref) => (mapBoxRef.current = ref)}
         style={{
           transition: "all 0.15s linear",
           position: "absolute",
           height: window.innerHeight / scale.height,
           width: window.innerWidth / scale.width,
           backgroundColor: "rgba(155,155,155,0.25)",
-          transform: `translate(${mapPos.x}px,${mapPos.y}px)`,
+          // transform: `translate(${mapPos.x}px,${mapPos.y}px)`,
         }}
       >
         {/* <div

@@ -1,41 +1,59 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import data from "../../constants/content-data";
+import { notifiactionData } from "../../constants/notifications-data";
 import { CanvasDimension, scale } from "../../constants/size.constants";
+import { useMobileView } from "../../hooks/use-mobile-view";
 import MiniMapDesktop from "../mini-map-desktop/mini-map-desktop";
+import MiniMapMobile from "../mini-map-mobile/mini-map-mobile";
+import NotificationWrapper from "../notification-wrapper/notification-wrapper";
 import SectionStack from "../section-stack/section-stack";
 import { IContent } from "../section-stack/section-stack.types";
 import { LayoutContext } from "./layout.context";
 import { positionCalculator } from "./layout.helper";
 import style from "./layout.module.scss";
-import { useMobileView } from "../../hooks/use-mobile-view";
-import MiniMapMobile from "../mini-map-mobile/mini-map-mobile";
-import NotificationWrapper from "../notification-wrapper/notification-wrapper";
-import { notifiactionData } from "../../constants/notifications-data";
+import { useNavigate, useParams } from "react-router-dom";
+import MobileViewController from "../mobile-view-controller/mobile-view-controller";
 
 export interface IPosition {
   x: number;
   y: number;
 }
+export interface IMapItem {
+  left: number;
+  top: number;
+  height: number;
+  width: number;
+  centerX: number;
+  centerY: number;
+  isZoneCenter: boolean;
+  id: string;
+}
 
 const Layout = () => {
-  const [canvasPos, setCanvasPos] = useState<IPosition>({
-    x: Math.abs(window.innerWidth / 2) * -1,
-    y: Math.abs(window.innerHeight / 2) * -1,
-  });
   const isMobileView = useMobileView();
   const [renderMap, setRenderMap] = useState(false);
-  const [mapPos, setMapPos] = useState<IPosition>({ x: 0, y: 0 });
   const [notifications, setNotifications] = useState({});
-
+  const [activeSectionIndex, setActiveSectionIndex] = useState(-1);
   const [content, setContent] = useState<IContent[]>([]);
-
-  const [mapItems, setMapItems] = useState<any[]>([]);
-  const [sectionList, setSectionList] = useState<any[]>([]);
+  const [itemIndex, setItemIndex] = useState(0);
+  const [mapItems, setMapItems] = useState<IMapItem[]>([]);
+  const [sectionList, setSectionList] = useState<string[]>([]);
 
   const mouseInitialPos = useRef<null | { initX: number; initY: number }>(null);
 
   const contentRef = useRef<HTMLDivElement>(null);
+  const mapBoxRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<any>();
+  const canvasPosRef = useRef({
+    currentPos: { x: 0, y: 0 },
+    nextPos: { x: 0, y: 0 },
+  });
+  const mapPosRef = useRef({
+    currentPos: { x: 0, y: 0 },
+  });
+
+  const route = useParams();
+  const navigate = useNavigate();
 
   const onMouseMove = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -44,17 +62,14 @@ const Layout = () => {
     if (!mouseInitialPos.current && !onClick) return;
 
     const position = positionCalculator(
-      canvasPos,
+      canvasPosRef.current.currentPos,
       event,
       CanvasDimension,
       window
     );
-    const newMapPos = {
-      x: (position.x / scale.width) * -1,
-      y: (position.y / scale.height) * -1,
-    };
-    setCanvasPos(position);
-    setMapPos(newMapPos);
+
+    canvasPosRef.current.nextPos = position;
+    transitBetweenVal();
   };
 
   const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -66,17 +81,79 @@ const Layout = () => {
 
     onMouseMove({ movementX, movementY } as any);
   };
+
+  const runUpdateClosestZone = () => {
+    if (!renderMap) return;
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      updateClosestZone();
+    }, 450);
+  };
+
+  const transitBetweenVal = useCallback(() => {
+    const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
+    let move = 0.1;
+    let frame: any = null;
+    window.cancelAnimationFrame(frame);
+    const func = () => {
+      const x = lerp(
+        canvasPosRef.current.currentPos.x,
+        canvasPosRef.current.nextPos.x,
+        move
+      );
+      const y = lerp(
+        canvasPosRef.current.currentPos.y,
+        canvasPosRef.current.nextPos.y,
+        move
+      );
+      move += 0.1;
+      if (move > 1) {
+        canvasPosRef.current.currentPos = canvasPosRef.current.nextPos;
+        mapPosRef.current.currentPos = {
+          x: (canvasPosRef.current.nextPos.x / scale.width) * -1,
+          y: (canvasPosRef.current.nextPos.y / scale.height) * -1,
+        };
+
+        const { x, y } = canvasPosRef.current.currentPos;
+        if (mapBoxRef.current) {
+          mapBoxRef.current!.style.transform = `translate(${
+            (x / scale.width) * -1
+          }px,${(y / scale.height) * -1}px)`;
+        }
+
+        contentRef.current!.style.transform = `translate(${x}px,${y}px)`;
+        runUpdateClosestZone();
+        window.cancelAnimationFrame(frame);
+        return;
+      }
+
+      canvasPosRef.current.currentPos.x = x;
+      canvasPosRef.current.currentPos.y = y;
+      if (mapBoxRef.current) {
+        mapBoxRef.current!.style.transform = `translate(${
+          (x / scale.width) * -1
+        }px,${(y / scale.height) * -1}px)`;
+      }
+      contentRef.current!.style.transform = `translate(${x}px,${y}px)`;
+
+      frame = window.requestAnimationFrame(func);
+    };
+    window.requestAnimationFrame(func);
+  }, [contentRef.current, mapBoxRef.current, runUpdateClosestZone]);
+
   const changeSection = (mapItems: any, to: number) => {
-    let newSectionList: any = [];
-    const poped = sectionList.splice(to, to > 0 ? sectionList.length - to : 1);
-    newSectionList = [...poped, ...sectionList];
-    focusItem(newSectionList[0], mapItems);
-    setSectionList(newSectionList);
+    let newActiveIndex = activeSectionIndex + to;
+    if (newActiveIndex < 0) {
+      newActiveIndex = sectionList.length - 1;
+    } else if (newActiveIndex > sectionList.length - 1) {
+      newActiveIndex = 0;
+    }
+    focusItem(sectionList[newActiveIndex], mapItems);
+    navigate(`${sectionList[newActiveIndex]}`);
+    setActiveSectionIndex(newActiveIndex);
   };
 
   const focusItem = (section: any, mapItems: any) => {
-    console.log(section);
-
     const positionToFocus = mapItems.find(
       (item: any) => item.id == section && item.isZoneCenter
     );
@@ -85,20 +162,11 @@ const Layout = () => {
       x: (positionToFocus.centerX - window.innerWidth / 2) * -1,
       y: (positionToFocus.centerY - window.innerHeight / 2) * -1,
     };
-    setCanvasPos(position);
-    setMapPos({
-      x: (position.x / scale.width) * -1,
-      y: (position.y / scale.height) * -1,
-    });
+
+    canvasPosRef.current.nextPos = position;
+
+    transitBetweenVal();
   };
-  useEffect(() => {
-    document.addEventListener("mouseup", () => {
-      mouseInitialPos.current = null;
-    });
-    document.addEventListener("touchend", () => {
-      mouseInitialPos.current = null;
-    });
-  }, []);
 
   const generateMiniMap = () => {
     const list = [];
@@ -139,8 +207,24 @@ const Layout = () => {
         uniqueLinks.add(item.link);
       }
     });
+    const linksArray = [...uniqueLinks];
+    const activeIdx = linksArray.findIndex((item: string) => item == route.id);
 
-    setSectionList([...uniqueLinks]);
+    const positionToFocus = response.findIndex(
+      (item: any) =>
+        item.link == linksArray[activeIdx >= 0 ? activeIdx : 0] &&
+        item.isZoneCenter
+    );
+
+    const position = {
+      x: (response[positionToFocus].position.x - window.innerWidth / 3) * -1,
+      y: (response[positionToFocus].position.y - window.innerHeight / 3) * -1,
+    };
+    canvasPosRef.current.currentPos = position;
+    contentRef.current!.style.transform = `translate(${position.x}px,${position.y}px)`;
+    setActiveSectionIndex(activeIdx >= 0 ? activeIdx : 0);
+    setItemIndex(positionToFocus);
+    setSectionList(linksArray);
     setContent(response);
     setNotifications(notifications);
   };
@@ -149,24 +233,22 @@ const Layout = () => {
     if (!contentRef.current || !content.length || !renderMap) return;
     const map = generateMiniMap();
     setMapItems(map);
-
-    focusItem(sectionList[0], map);
+    focusItem(sectionList[activeSectionIndex], map);
   }, [contentRef.current, content, renderMap]);
 
   const updateZoneList = (zone: string) => {
-    const list = sectionList;
-    const index = list.findIndex((item) => item == zone);
+    const index = sectionList.findIndex((item) => item == zone);
+
     if (index >= 0) {
-      const item = list.splice(index, 1);
-      setSectionList([item, ...list]);
+      setActiveSectionIndex(index);
     }
   };
 
   const updateClosestZone = () => {
     let closestDistance = Infinity;
     let closestZone = null;
-
-    Array.from(contentRef.current?.children!)?.forEach((item) => {
+    let itemIndex = -1;
+    Array.from(contentRef.current?.children!)?.forEach((item, index) => {
       const rect = item.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
@@ -199,11 +281,13 @@ const Layout = () => {
       if (distance < closestDistance) {
         closestZone = item.getAttribute("data-zone");
         closestDistance = distance;
+        itemIndex = index;
       }
     });
 
-    if (sectionList[0] != closestZone && closestZone) {
+    if (sectionList[activeSectionIndex] != closestZone && closestZone) {
       updateZoneList(closestZone);
+      setItemIndex(itemIndex);
     }
   };
 
@@ -212,31 +296,52 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    if (!renderMap) return;
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      updateClosestZone();
-    }, 450);
-  }, [contentRef.current, canvasPos]);
-
-  useEffect(() => {
     getContent();
+    document.addEventListener("mouseup", () => {
+      mouseInitialPos.current = null;
+    });
+    document.addEventListener("touchend", () => {
+      mouseInitialPos.current = null;
+    });
   }, []);
 
+  const navigateInMobile = (to: number) => {
+    let newActiveIndex = itemIndex + to;
+
+    if (newActiveIndex < 0) {
+      newActiveIndex = content.length - 1;
+    } else if (newActiveIndex > content.length - 1) {
+      newActiveIndex = 0;
+    }
+
+    const item = contentRef.current?.children[newActiveIndex];
+    const rect = item?.getBoundingClientRect();
+    const centerX = rect?.width! / 2 + content[newActiveIndex]?.position.x!;
+    const centerY = rect?.height! / 2 + content[newActiveIndex]?.position.y!;
+    const position = {
+      x: (centerX - window.innerWidth / 2) * -1,
+      y: (centerY - window.innerHeight / 2) * -1,
+    };
+
+    canvasPosRef.current.nextPos = position;
+    transitBetweenVal();
+    setItemIndex(newActiveIndex);
+  };
   return (
     <LayoutContext.Provider
       value={{
         changeSection: (index: number) => changeSection(mapItems, index),
         sectionList,
         updatemapVisibility,
+        mapBoxRef: mapBoxRef,
       }}
     >
       {renderMap ? (
         <>
           {isMobileView ? (
             <MiniMapMobile
-              activeSection={sectionList[0]}
-              mapPos={mapPos}
+              activeSection={sectionList[activeSectionIndex]}
+              mapPos={mapPosRef.current}
               scale={scale}
               onMapClick={onMouseMove}
               sections={mapItems}
@@ -244,8 +349,8 @@ const Layout = () => {
             />
           ) : (
             <MiniMapDesktop
-              activeSection={sectionList[0]}
-              mapPos={mapPos}
+              activeSection={sectionList[activeSectionIndex]}
+              mapPos={mapPosRef.current}
               scale={scale}
               onMapClick={onMouseMove}
               sections={mapItems}
@@ -254,10 +359,18 @@ const Layout = () => {
           )}
         </>
       ) : null}
-
-      {!isMobileView && renderMap && (
+      {isMobileView && (
+        <MobileViewController
+          activeItem={itemIndex + 1}
+          totalItems={content.length}
+          section={content[itemIndex]?.link}
+          changeSection={navigateInMobile}
+        />
+      )}
+      {!isMobileView && renderMap && activeSectionIndex != -1 && (
         <NotificationWrapper
-          notifications={notifications[sectionList[0]] || []}
+          ///@ts-ignore
+          notifications={notifications[sectionList[activeSectionIndex]] || []}
         />
       )}
       {/* <div
@@ -294,7 +407,6 @@ const Layout = () => {
               height: CanvasDimension.height,
               maxWidth: CanvasDimension.width,
               maxHeight: CanvasDimension.height,
-              transform: `translate(${canvasPos.x}px,${canvasPos.y}px)`,
             }}
           >
             <SectionStack updateMapItem={updateMapItem} data={content} />

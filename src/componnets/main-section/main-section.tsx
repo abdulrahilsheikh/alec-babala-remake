@@ -8,7 +8,7 @@ type Props = {
 };
 
 const MainSection = ({ data }: Props) => {
-  const { sectionList, changeSection, updatemapVisibility }: any =
+  const { sectionList, changeSection, updatemapVisibility } =
     useContext(LayoutContext);
 
   return (

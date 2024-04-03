@@ -1,13 +1,14 @@
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import style from "./mini-map-desktop.module.scss";
 
 import MiniMap from "../map/mini-map";
+import { IMapItem } from "../layout/layout";
 type Props = {
-  mapPos: { x: number; y: number };
+  mapPos: { currentPos: { x: number; y: number } };
   scale: { height: number; width: number };
   onMapClick: (data: any, bool: any) => void;
   changeSection: (index: number) => void;
-  sections: any[];
+  sections: IMapItem[];
   activeSection: string;
 };
 const MiniMapDesktop = ({

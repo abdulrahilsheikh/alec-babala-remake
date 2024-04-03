@@ -1,0 +1,34 @@
+@import "../../scss/_colors.scss";
+
+.mobile_view_nav {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  .content_info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    border-radius: 5rem;
+    background: #ffff;
+    font-size: 0.85rem;
+    color: $TEXT_COLOR_2;
+    padding: 0.25rem 0.5rem;
+    width: 10rem;
+    align-items: center;
+    .section {
+      font-weight: 500;
+    }
+    .count {
+      font-weight: 500;
+      color: $TEXT_COLOR_1;
+      font-size: 0.5rem;
+    }
+  }
+}

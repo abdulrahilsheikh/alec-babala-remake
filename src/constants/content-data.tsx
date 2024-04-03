@@ -1,4 +1,6 @@
-const data = [
+import { IContent } from "../componnets/section-stack/section-stack.types";
+
+const data: IContent[] = [
   {
     contentType: "MainSection",
     title: "rahil.sheikh / about",
