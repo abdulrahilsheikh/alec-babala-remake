@@ -6,6 +6,7 @@ type Props = {
   index: number;
   unmount: boolean;
   onAnimationEnd?: () => void;
+  link?: { text: string; href: string };
   color: string;
 };
 
@@ -16,6 +17,7 @@ const Notifications = ({
   index,
   unmount,
   color,
+  link,
 }: Props) => {
   return (
     <div
@@ -30,7 +32,14 @@ const Notifications = ({
         ></div>{" "}
         {title}
       </div>
-      <div className={style.description}>{description}</div>
+      <div className={style.description}>
+        {description}
+        {link ? (
+          <a style={{ marginLeft: "0.25rem" }} href={link.href} target="_blank">
+            @{link.text}
+          </a>
+        ) : null}
+      </div>
     </div>
   );
 };

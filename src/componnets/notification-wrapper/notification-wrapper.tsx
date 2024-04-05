@@ -31,6 +31,7 @@ const NotificationWrapper = ({ notifications }: Props) => {
           index={index + 1}
           title={item.title}
           description={item.description}
+          link={item.link}
         />
       ))}
     </div>

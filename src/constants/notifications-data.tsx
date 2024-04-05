@@ -5,6 +5,10 @@ export const notifiactionData = {
       {
         title: "LinkedIn",
         description: "You can find me on linked at",
+        link: {
+          text: "RahilSheikh",
+          href: "https://in.linkedin.com/in/rahil-sheikh-b9a1aa21b",
+        },
       },
       {
         title: "Future Plan",
