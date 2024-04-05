@@ -32,7 +32,6 @@ const MiniMap = ({
       window.innerHeight / 2;
 
     onMapClick({ movementX: x, movementY: y }, true);
-    console.log(mapPos);
   };
 
   return (

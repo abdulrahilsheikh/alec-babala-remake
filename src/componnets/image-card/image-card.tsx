@@ -15,7 +15,17 @@ const ImageCard = ({ data, updateMapItem }: Props) => {
       <div className={style.imgae_card}>
         <img onLoad={updateMapItem} src={data.src} draggable="false" />
       </div>
-      <div className={style.image_title}>{data.title}</div>
+      {data.externalLink ? (
+        <a
+          href={data.externalLink}
+          target="_blank"
+          className={style.image_title}
+        >
+          {data.title}
+        </a>
+      ) : (
+        <div className={style.image_title}>{data.title}</div>
+      )}
       <div className={style.image_meta}>{data.metaData}</div>
     </div>
   );

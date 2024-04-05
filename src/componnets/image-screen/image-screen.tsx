@@ -13,7 +13,18 @@ const ImageScreen = ({ data, updateMapItem }: Props) => {
       style={{ left: data.position.x, top: data.position.y }}
     >
       <div className={style.imgae_card}>
-        <div className={style.image_screen_title}>{data.title}</div>
+        {data.externalLink ? (
+          <a
+            href={data.externalLink}
+            target="_blank"
+            className={style.image_screen_title}
+          >
+            {data.title}{" "}
+            <i className="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        ) : (
+          <div className={style.image_screen_title}>{data.title}</div>
+        )}
         <img onLoad={updateMapItem} src={data.src} draggable="false" />
       </div>
       <div className={style.image_meta}>{data.metaData}</div>

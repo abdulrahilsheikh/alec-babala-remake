@@ -214,27 +214,27 @@ const data: IContent[] = [
       {
         title: "Realm.js",
         src: "https://abdulrahilsheikh.github.io/DataBase/icons/realmjs.svg",
-        link: "",
+        link: "https://www.mongodb.com/docs/realm/sdk/react-native/",
       },
       {
         title: "ShadCn",
         src: "https://abdulrahilsheikh.github.io/DataBase/icons/shadcn.png",
-        link: "",
+        link: "https://ui.shadcn.com/",
       },
       {
         title: "Supabase",
         src: "https://abdulrahilsheikh.github.io/DataBase/icons/supabase.png",
-        link: "",
+        link: "https://supabase.com/",
       },
       {
         title: "Mui",
         src: "https://abdulrahilsheikh.github.io/DataBase/icons/mui.png",
-        link: "",
+        link: "https://mui.com/",
       },
       {
         title: "Express.js",
         src: "https://abdulrahilsheikh.github.io/DataBase/icons/expressjsLogo.png",
-        link: "",
+        link: "https://expressjs.com/",
       },
       {
         title: "Three.js",
@@ -481,6 +481,7 @@ const data: IContent[] = [
     src: "https://townsquare.media/site/443/files/2014/10/JEALEXphoto-211.jpg?w=980&q=75",
     metaData: "Skrillex at ACL",
     link: "hobbies",
+    externalLink: "https://youtu.be/LMUzWbF1DDg?si=wV38BIjwufxwBLJh",
   },
   {
     contentType: "ImageCard",
@@ -522,14 +523,7 @@ const data: IContent[] = [
     metaData: "March 2023",
     link: "projects",
   },
-  {
-    contentType: "ImageCard",
-    title: "Dutches national Flag",
-    position: { x: 150, y: 250 },
-    src: "https://abdulrahilsheikh.github.io/DataBase/images/DutchesNationalFlag.png",
-    metaData: "March 2023",
-    link: "projects",
-  },
+
   {
     contentType: "ImageCard",
     title: "fAVOURITE LIVE SET",
@@ -537,6 +531,7 @@ const data: IContent[] = [
     src: "https://www.edmtunes.com/wp-content/uploads/2023/02/maxresdefault-2-1-696x392.jpg",
     metaData: "skrillex live at new york",
     link: "hobbies",
+    externalLink: "https://youtu.be/ahe9baHOWIg?si=3m4oMu5AAwUn4tHH",
   },
 ];
 export default data;

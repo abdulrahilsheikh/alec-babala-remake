@@ -6,8 +6,6 @@ type Props = {
 };
 
 const NotificationWrapper = ({ notifications }: Props) => {
-  console.log(notifications);
-
   const [notificationList, setNotificationsList] = useState(notifications);
   const [unmount, setUnmount] = useState(false);
   useEffect(() => {

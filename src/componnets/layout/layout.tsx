@@ -13,6 +13,7 @@ import { positionCalculator } from "./layout.helper";
 import style from "./layout.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import MobileViewController from "../mobile-view-controller/mobile-view-controller";
+import Loader from "../loader/loader";
 
 export interface IPosition {
   x: number;
@@ -30,6 +31,7 @@ export interface IMapItem {
 }
 
 const Layout = () => {
+  const [loading, setLoading] = useState(false);
   const isMobileView = useMobileView();
   const [renderMap, setRenderMap] = useState(false);
   const [notifications, setNotifications] = useState({});
@@ -199,6 +201,7 @@ const Layout = () => {
   };
 
   const getContent = async () => {
+    setLoading(true);
     const response: any = data;
     const notifications = notifiactionData;
     const uniqueLinks: any = new Set();
@@ -227,6 +230,7 @@ const Layout = () => {
     setSectionList(linksArray);
     setContent(response);
     setNotifications(notifications);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -409,7 +413,11 @@ const Layout = () => {
               maxHeight: CanvasDimension.height,
             }}
           >
-            <SectionStack updateMapItem={updateMapItem} data={content} />
+            {!content.length ? (
+              <Loader loading={loading} />
+            ) : (
+              <SectionStack updateMapItem={updateMapItem} data={content} />
+            )}
           </div>
         </div>
       </div>

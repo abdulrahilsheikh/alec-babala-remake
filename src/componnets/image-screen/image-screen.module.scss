@@ -27,6 +27,11 @@
 
     .image_screen_title {
       @extend .title;
+      color: $TEXT_COLOR_2;
+      text-decoration: none;
+      i {
+        margin-left: 0.5rem;
+      }
     }
 
     img {

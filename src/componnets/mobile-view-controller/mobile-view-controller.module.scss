@@ -31,4 +31,20 @@
       font-size: 0.5rem;
     }
   }
+  .button {
+    display: flex;
+
+    gap: 0.25em;
+    border-radius: 5rem;
+    background: #ffff;
+    font-size: 0.85rem;
+    color: $TEXT_COLOR_2;
+    padding: 0.25rem 0.5rem;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+  }
 }
