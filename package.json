@@ -1,5 +1,5 @@
 {
-  "name": "alec-babala-remake",
+  "name": "portfolio-v4",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "buildpredeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
